@@ -31,7 +31,7 @@ export const prizeList = [
   },
   {
     icon: require("../assets/img/give_up.png"),
-    name: "奖品7",
+    name: "未中奖",
     isPrize: 0
   },
   {

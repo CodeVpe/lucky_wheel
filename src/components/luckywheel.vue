@@ -30,7 +30,7 @@
       <div class="tip">
         <div class="tip-title">活动规则</div>
         <div class="tip-content">
-          <p>1.每日签到后，即可获得一次幸运大转盘的机会，仅限当天有效，过期作废。 2.金币抽奖，每10个金豆可兑换一次大转盘机会。</p>
+          <p>1.每日签到后，即可获得一次幸运大转盘的机会，仅限当天有效，过期作废。</p>
           <p>2.金币抽奖，每10个金豆可以兑换一次大转盘抽奖机会</p>
           <p>3.所中金豆或积分到【我的账户】中查询。累计达到100金豆及以上，可以兑换相应奖品</p>
         </div>
@@ -89,12 +89,11 @@ export default {
         -webkit-transition: transform ${this.config.duration}ms ${this.config.mode};
         transition: transform ${this.config.duration}ms ${this.config.mode};
         -webkit-transform: rotate(${this.rotateAngle}deg);
-            transform: rotate(${this.rotateAngle}deg);`
+        transform: rotate(${this.rotateAngle}deg);`
     },
     toastTitle () {
       return this.prize && this.prize.isPrize === 1
-        ? "恭喜您，获得" +
-            this.prize.name
+        ? "恭喜您，获得" + this.prize.name
         : "未中奖";
     },
     toastIcon() {
@@ -118,30 +117,33 @@ export default {
       const l = list.length
       // 计算单个奖项所占的角度
       const average = CIRCLE_ANGLE / l
-
+      // 指针指向角度的中心位置
       const half = average / 2
 
       // 循环计算给每个奖项添加style属性
       list.forEach((item, i) => {
 
-        // 每个奖项旋转的位置为 当前 i * 平均值 + 平均值 / 2
+        // 每个中奖奖项的角度为 当前 i * 平均值 + 平均值 / 2，相当于需要转盘逆时针转动这么多才能转到初始0的位置，所以是负数。
+        //（也可以表示为360-((i * average) + half)）
+        // 如果转动的是指针，这个数值就是正数
         const angle = -((i * average) + half)
+        console.log(angle)
         // 增加 style
-        item.style = `-webkit-transform: rotate(${angle}deg);
-                      transform: rotate(${angle}deg);`
+        item.style = `-webkit-transform: rotate(${angle}deg);transform: rotate(${angle}deg);`
 
         // 记录每个奖项的角度范围
         angleList.push((i * average) + half )
       })
 
       this.angleList = angleList
+      console.log(this.angleList)
 
       return list
     },
     beginRotate() {
       // 添加次数校验
       
-      if(this.count === 0) return
+     if(this.count === 0 || this.isRotating) return
 
       // 开始抽奖
       // 这里这里向服务端发起请求，得到要获得的奖
