@@ -115,7 +115,7 @@ export default {
       const angleList = []
 
       const l = list.length
-      // 计算单个奖项所占的角度
+      // 计算单个奖项所占的角度 
       const average = CIRCLE_ANGLE / l
       // 指针指向角度的中心位置
       const half = average / 2
